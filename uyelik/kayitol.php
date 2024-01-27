@@ -8,18 +8,26 @@ if(isset($_POST["kaydett"]))
     $email=$_POST["email"];
     $sifre=$_POST["sifre"]; 
 
-    $ekle="INSERT INTO uye (kullanici_adi ,email, sifre) VALUES ('$ad','$email','$sifre')";
-    
-    $calistirekle=mysqli_query($baglanti,$ekle);
+    $check_query = "SELECT COUNT(*) as count FROM uye WHERE kullanici_adi = '$ad' OR email = '$email'";
+    $check_result = mysqli_query($baglanti, $check_query);
+    $row = mysqli_fetch_assoc($check_result);
+    $user_count = $row['count'];
 
-    if ($calistirekle) {
-        echo '<script>Swal.fire("Başarılı", "Mesajınız bize ulaştı", "success"); </script>';
-    }
-    else {
-         echo '<div class="alert alert-danger" role="alert">
-         Kayıt Başarısız
-         </div>';
+    if($user_count > 0) {
+        echo '<script>alert("Bu kullanıcı zaten mevcut");</script>';
+    } else {
+        
+        $ekle = "INSERT INTO uye (kullanici_adi ,email, sifre) VALUES ('$ad','$email','$sifre')";
+        $calistirekle = mysqli_query($baglanti, $ekle);
+
+        if ($calistirekle) {
+            echo '<script>alert("Kayıt başarıyla oluşturuldu");</script>';
+        } else {
+            echo '<div class="alert alert-danger" role="alert">
+            Kayıt Başarısız
+            </div>';
         }
+    }
 
         mysqli_close($baglanti);
 }
@@ -83,6 +91,7 @@ if(isset($_POST["kaydett"]))
        
     </head>
     <body>
+       
         
 
         
