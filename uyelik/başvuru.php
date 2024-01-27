@@ -16,14 +16,10 @@ if(isset($_POST["kaydet"]))
     $calistirekle=mysqli_query($baglanti,$ekle);
 
     if ($calistirekle){
-        echo '<div class="alert alert-success" role="alert">
-        Kayıt Başarılı
-        </div>';
+        echo "<script>alert('Başvurunuz Tamamlandı')</script>";
     }
     else{
-        echo '<div class="alert alert-danger" role="alert">
-        Kayıt Başarısız
-        </div>';
+        echo "<script>alert('Başvurunuz Tamamlanmadı')</script>";
     }
 
     mysqli_close($baglanti);
